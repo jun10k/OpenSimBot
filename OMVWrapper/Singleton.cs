@@ -2,18 +2,17 @@
 namespace OpenSimBot.OMVWrapper.Utility
 {
 
-    class Singleton<T>
+    public class Singleton<T> where T : new()
     {
-        private static const T m_instance = new T();
-        public static const T& GetInstance()
+        private static T m_instance;
+        public static T GetInstance()
         {
+            if (null == m_instance)
+            {
+                m_instance = new T();
+            }
+
             return m_instance;
-
         }
-
     }
-
-
-
-
 }
