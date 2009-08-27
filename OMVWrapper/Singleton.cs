@@ -4,15 +4,15 @@ namespace OpenSimBot.OMVWrapper.Utility
 
     public class Singleton<T> where T : new()
     {
-        private static T m_instance;
-        public static T GetInstance()
+        public static T Instance
         {
-            if (null == m_instance)
-            {
-                m_instance = new T();
-            }
+            get { return SingletonCreator.instance; }
+        }
 
-            return m_instance;
+        private class SingletonCreator
+        {
+            static SingletonCreator() { }
+            internal static readonly T instance = new T();
         }
     }
 }

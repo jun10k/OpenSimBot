@@ -57,6 +57,7 @@
     <Compile Include="BotSessionMgr.cs" />
     <Compile Include="CommandMgr.cs" />
     <Compile Include="ICommand.cs" />
+    <Compile Include="Manager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Singleton.cs" />
   </ItemGroup>

@@ -2,32 +2,48 @@
 using System.Collections.Generic;
 using System.Text;
 
+using OpenSimBot.OMVWrapper.Manager;
+using OpenSimBot.OMVWrapper.Utility;
+using OpenSimBot.OMVWrapper;
+
 namespace OpenSimBot.BotFramework
 {
-    class API_Base
+    public class API_Base : Singleton<API_Base>
     {
+        /*Members**************************************************************/
+
         /*Functions************************************************************/
         public bool InitializeAll()
         {
-            return false;
+            bool returnVal = true;
+
+            returnVal &= BotSessionMgr.Instance.Initialize();
+            returnVal &= CommandMgr.Instance.Initialize();
+
+            return returnVal;
         }
 
-        public bool Login()
-        {
-            return false;
-        }
-
-        public bool Login(int botNum)
-        {
-            return false;
-        }
-
-        public void Logout()
+        public void Reset()
         {
 
         }
 
-        public bool BeginAssignment()
+        public void SetNetworkLatency()
+        {
+
+        }
+
+        public bool Login(BotAgent.BotInfo info)
+        {
+            return false;
+        }
+
+        public void Logout(BotAgent.BotInfo info)
+        {
+
+        }
+
+        public bool BeginAssignment(BotAgent.BotInfo info)
         {
             return false;
         }
