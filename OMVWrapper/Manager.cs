@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OpenSimBot.OMVWrapper.Manager
 {
-    interface IManager
+    public interface IManager
     {
         bool Initialize();
         void Reset();

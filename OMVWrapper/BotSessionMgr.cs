@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 
 using OpenSimBot.OMVWrapper.Utility;
+using OpenSimBot.OMVWrapper.Command;
 using OpenMetaverse;
 
 namespace OpenSimBot.OMVWrapper.Manager
@@ -40,8 +41,8 @@ namespace OpenSimBot.OMVWrapper.Manager
         {
             foreach (BotSession sess in m_sessionList)
             {
-                if (0 == string.Compare(sess.Bot.botInfo.Firstname, bot.botInfo.Firstname, true) &&
-                    0 == string.Compare(sess.Bot.botInfo.Lastname, bot.botInfo.Lastname, true))
+                if (0 == string.Compare(sess.Bot.Info.Firstname, bot.Info.Firstname, true) &&
+                    0 == string.Compare(sess.Bot.Info.Lastname, bot.Info.Lastname, true))
                 {
                     return false;
                 }
@@ -55,20 +56,22 @@ namespace OpenSimBot.OMVWrapper.Manager
         {
             foreach (BotSession sess in m_sessionList)
             {
-                if (0 == string.Compare(sess.Bot.botInfo.Firstname, bot.botInfo.Firstname, true) &&
-                    0 == string.Compare(sess.Bot.botInfo.Lastname, bot.botInfo.Lastname, true))
+                if (0 == string.Compare(sess.Bot.Info.Firstname, bot.Info.Firstname, true) &&
+                    0 == string.Compare(sess.Bot.Info.Lastname, bot.Info.Lastname, true))
                 {
                     m_sessionList.Remove(sess);
                 }
             }
         }
 
-        private class BotSession
+        public class BotSession
         {
             /*Members**********************************************************/
             private BotAgent m_botAgent;
-            private GridClient m_omvClient;
+            private GridClient m_omvClient = new GridClient();
             private Thread m_exeAssignment;
+            private AutoResetEvent m_loopEvent = new AutoResetEvent(false);
+
 
             /*Attributes*******************************************************/
             public BotAgent Bot
@@ -85,8 +88,20 @@ namespace OpenSimBot.OMVWrapper.Manager
             public BotSession(BotAgent bot)
             {
                 m_botAgent = bot;
-                m_omvClient = new GridClient();
-                //m_exeAssignment = new Thread(
+                m_exeAssignment = new Thread(SesstionThreadRoutin);
+            }
+
+            private void OnSessionUpdated(UpdateInfo cmdInfo)
+            {
+                m_loopEvent.Set();
+            }
+
+            private void SesstionThreadRoutin()
+            {
+                if (m_botAgent != null)
+                {
+                    CommandMgr.Instance.ProcessTestSteps(this, new CmdUpdated(OnSessionUpdated));
+                }
             }
         }
     }

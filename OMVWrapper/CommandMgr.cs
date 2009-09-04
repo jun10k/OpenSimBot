@@ -41,5 +41,22 @@ namespace OpenSimBot.OMVWrapper.Manager
         {
             return m_instructionList.Contains(name.ToLower());
         }
+
+        public bool ProcessTestSteps(BotSessionMgr.BotSession owner,
+                                     CmdUpdated cmdUpdatedHandler)
+        {
+            bool ret = false;
+            if (owner != null)
+            {
+                BotAgent.BotAssignment.TestStep step = owner.Bot.Assignment.GetNextStep();
+                if (IsValidInstruction(step.Name))
+                {
+                    ICommand cmd = OMVCommandFactory.Instance.CreateCommand(step.Name, owner);
+                    cmd.OnCmdUpdated += cmdUpdatedHandler;
+                }
+            }
+
+            return ret;
+        }
     }
 }
