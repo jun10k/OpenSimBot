@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ThirdParty\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="OpenMetaverse, Version=0.7.0.20533, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ThirdParty\OpenMetaverse.dll</HintPath>
@@ -59,6 +63,7 @@
     <Compile Include="Commands\Cmd_Login.cs" />
     <Compile Include="Commands\CommandFactory.cs" />
     <Compile Include="Commands\ICommandFactory.cs" />
+    <Compile Include="ConfigureMgr.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="Manager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

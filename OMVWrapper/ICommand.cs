@@ -35,7 +35,7 @@ namespace OpenSimBot.OMVWrapper.Command
             set { m_status = value; }
         }
 
-        public Guid BotGUID
+        public Guid BotID
         {
             get { return m_botGUID; }
         }
@@ -43,6 +43,7 @@ namespace OpenSimBot.OMVWrapper.Command
         public string Description
         {
             get { return m_description; }
+            set { m_description = value; }
         }
     }
 }

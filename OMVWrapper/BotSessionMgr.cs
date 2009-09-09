@@ -7,6 +7,7 @@ using System.Threading;
 using OpenSimBot.OMVWrapper.Utility;
 using OpenSimBot.OMVWrapper.Command;
 using OpenMetaverse;
+using log4net;
 
 namespace OpenSimBot.OMVWrapper.Manager
 {
@@ -28,11 +29,6 @@ namespace OpenSimBot.OMVWrapper.Manager
         }
 
         public void Reset()
-        {
-
-        }
-
-        public void SetLogLevel()
         {
 
         }
@@ -67,13 +63,26 @@ namespace OpenSimBot.OMVWrapper.Manager
         public class BotSession
         {
             /*Members**********************************************************/
-            private BotAgent m_botAgent;
-            private GridClient m_omvClient = new GridClient();
-            private Thread m_exeAssignment;
-            private AutoResetEvent m_loopEvent = new AutoResetEvent(false);
+            public enum SessionStatus
+            {
+                SESS_WAIT = 0,
+                SESS_FAIL,
+                SESS_RUNNING,
+            }
 
+            protected static readonly ILog m_log =
+                LogManager.GetLogger(typeof(BotSession));
+            private BotAgent m_botAgent = null;
+            private GridClient m_omvClient = new GridClient();
+            private AutoResetEvent m_loopEvent = new AutoResetEvent(false);
+            private SessionStatus m_status = SessionStatus.SESS_WAIT;
 
             /*Attributes*******************************************************/
+            public SessionStatus Status
+            {
+                get { return m_status; }
+            }
+
             public BotAgent Bot
             {
                 get { return m_botAgent; }
@@ -88,7 +97,20 @@ namespace OpenSimBot.OMVWrapper.Manager
             public BotSession(BotAgent bot)
             {
                 m_botAgent = bot;
-                m_exeAssignment = new Thread(SesstionThreadRoutin);
+                if (m_botAgent != null)
+                {
+                    WaitCallback sessRoutin = 
+                        new WaitCallback(SesstionThreadRoutin);
+                    ThreadPool.QueueUserWorkItem(sessRoutin);
+                    m_status = SessionStatus.SESS_RUNNING;
+                    m_log.Info("SESSION: (" + bot.Info.Firstname + " " +
+                               bot.Info.Lastname + ") is running.");
+                }
+                else
+                {
+                    m_status = SessionStatus.SESS_FAIL;
+                    m_log.Debug("SESSION: The session contains null bot.");
+                }
             }
 
             private void OnSessionUpdated(UpdateInfo cmdInfo)
@@ -96,11 +118,15 @@ namespace OpenSimBot.OMVWrapper.Manager
                 m_loopEvent.Set();
             }
 
-            private void SesstionThreadRoutin()
+            private void SesstionThreadRoutin(Object threadContext)
             {
                 if (m_botAgent != null)
                 {
-                    CommandMgr.Instance.ProcessTestSteps(this, new CmdUpdated(OnSessionUpdated));
+                    if (!CommandMgr.Instance.ProcessTestSteps(this, new CmdUpdated(OnSessionUpdated)))
+                    {
+                            m_loopEvent.WaitOne();
+                    }
+                    
                 }
             }
         }

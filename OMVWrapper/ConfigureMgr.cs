@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using OpenSimBot.OMVWrapper.Utility;
+using log4net;
+
 namespace OpenSimBot.OMVWrapper.Manager
 {
-    public interface IManager
+    class ConfigureMgr : Singleton<ConfigureMgr>, IManager
     {
-        bool Initialize();
-        void Reset();
+
     }
 }
