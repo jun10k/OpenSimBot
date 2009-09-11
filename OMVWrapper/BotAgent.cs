@@ -129,6 +129,20 @@ namespace OpenSimBot.OMVWrapper
                 return ret;
             }
 
+            public TestStep GetStepByID(Guid id)
+            {
+                TestStep ret = null;
+                foreach (TestStep step in m_stepList)
+                {
+                    if (null != step)
+                    {
+                        ret = step;
+                    }
+                }
+
+                return ret;
+            }
+
             /*Class************************************************************/
             public class TestStep
             {
@@ -140,6 +154,7 @@ namespace OpenSimBot.OMVWrapper
                     TESTSTEP_PROCESSING,
                     TESTSTEP_SUCESS,
                 }
+                private readonly Guid m_stepID = new Guid();
                 private readonly string m_name; 
                 private readonly Hashtable m_paramList;
                 private TestStatus m_status = TestStatus.TESTSTEP_WAIT;
@@ -159,6 +174,11 @@ namespace OpenSimBot.OMVWrapper
                 {
                     get { return m_status; }
                     set { m_status = value; }
+                }
+
+                public Guid ID
+                {
+                    get { return m_stepID; }
                 }
 
                 /*Functions****************************************************/

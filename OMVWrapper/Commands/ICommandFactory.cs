@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,7 @@ namespace OpenSimBot.OMVWrapper.Command
 {
     public interface ICommandFactory
     {
-        ICommand CreateCommand(string cmdName, BotSessionMgr.BotSession owner);
+        ICommand CreateCommand(Guid stepID, 
+                               BotSessionMgr.BotSession owner);
     }
 }

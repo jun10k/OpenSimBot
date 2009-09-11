@@ -88,7 +88,7 @@ namespace OpenSimBot.OMVWrapper.Manager
                 get { return m_botAgent; }
             }
 
-            public GridClient client
+            public GridClient Client
             {
                 get { return m_omvClient; }
             }

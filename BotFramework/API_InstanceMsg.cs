@@ -10,6 +10,7 @@ namespace OpenSimBot.BotFramework
     {
         public API_InstanceMsg()
         {
+
         }
     }
 }

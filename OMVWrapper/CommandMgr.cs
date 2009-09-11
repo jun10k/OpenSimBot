@@ -13,7 +13,7 @@ namespace OpenSimBot.OMVWrapper.Manager
     public delegate void Cmd_Login();
     public delegate void Cmd_Logout();
 
-    public sealed class CommandMgr : Singleton<CommandMgr>, IManager
+    public class CommandMgr : Singleton<CommandMgr>, IManager
     {
         /*Members**************************************************************/
         private const string INSTRUCTION_LOGIN = "login";
@@ -58,7 +58,7 @@ namespace OpenSimBot.OMVWrapper.Manager
 
                 if (null != step && IsValidInstruction(step.Name))
                 {
-                    ICommand cmd = OMVCommandFactory.Instance.CreateCommand(step.Name, owner);
+                    ICommand cmd = OMVCommandFactory.Instance.CreateCommand(step.ID, owner);
                     if (cmd != null)
                     {
                         lock (m_queueLock)
@@ -77,7 +77,7 @@ namespace OpenSimBot.OMVWrapper.Manager
                 {
                     m_log.Info("SESSION: (" + owner.Bot.Info.Firstname + " " +
                                owner.Bot.Info.Lastname + ") finished its assignment.");
-                    UpdateInfo info = new UpdateInfo();
+                    UpdateInfo info = new UpdateInfo(step.ID);
                     info.Status = UpdateInfo.CommandStatus.CMD_FAIL;
                     info.Description = "Illegal instruction for the bot (" +
                                        owner.Bot.Info.Firstname + " " +

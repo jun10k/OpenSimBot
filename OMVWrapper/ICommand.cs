@@ -25,7 +25,7 @@ namespace OpenSimBot.OMVWrapper.Command
         }
 
         private CommandStatus m_status = CommandStatus.CMD_READY;
-        private readonly Guid m_botGUID = Guid.Empty;
+        private readonly Guid m_stepID = Guid.Empty;
         private string m_description = string.Empty;
 
         /*Attributes***********************************************************/
@@ -35,15 +35,21 @@ namespace OpenSimBot.OMVWrapper.Command
             set { m_status = value; }
         }
 
-        public Guid BotID
+        public Guid StepID
         {
-            get { return m_botGUID; }
+            get { return m_stepID; }
         }
 
         public string Description
         {
             get { return m_description; }
             set { m_description = value; }
+        }
+
+        /*Functions************************************************************/
+        public UpdateInfo(Guid stepID)
+        {
+            m_stepID = stepID;
         }
     }
 }

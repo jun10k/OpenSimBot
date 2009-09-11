@@ -10,6 +10,20 @@ namespace OpenSimBot.OMVWrapper.Manager
 {
     class ConfigureMgr : Singleton<ConfigureMgr>, IManager
     {
+        /*Members**************************************************************/
 
+        /*Functions************************************************************/
+        public bool Initialize()
+        {
+            bool ret = false;
+
+            return ret;
+        }
+
+        public void Reset()
+        {
+
+
+        }
     }
 }
