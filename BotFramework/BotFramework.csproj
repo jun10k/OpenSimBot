@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="API_Base.cs" />
     <Compile Include="API_InstanceMsg.cs" />
+    <Compile Include="API_Movement.cs" />
     <Compile Include="ConfigAgent.cs" />
   </ItemGroup>
   <ItemGroup>

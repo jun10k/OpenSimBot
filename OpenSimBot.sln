@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotFramework", "BotFramewor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OMVWrapper", "OMVWrapper\OMVWrapper.csproj", "{115A4701-84DD-4B0C-9471-87D7AC7F7649}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotMonitor", "BotMonitor\BotMonitor.csproj", "{9BCD0421-A039-49C4-B166-B3240E8AEF6B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{115A4701-84DD-4B0C-9471-87D7AC7F7649}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{115A4701-84DD-4B0C-9471-87D7AC7F7649}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{115A4701-84DD-4B0C-9471-87D7AC7F7649}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BCD0421-A039-49C4-B166-B3240E8AEF6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BCD0421-A039-49C4-B166-B3240E8AEF6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BCD0421-A039-49C4-B166-B3240E8AEF6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BCD0421-A039-49C4-B166-B3240E8AEF6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

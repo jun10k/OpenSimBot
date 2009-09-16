@@ -15,6 +15,8 @@ namespace OpenSimBot.OMVWrapper.Manager
     {
         /*Members**************************************************************/
         private List<BotSession> m_sessionList = new List<BotSession>();
+        protected static readonly ILog m_log =
+            LogManager.GetLogger(typeof(BotSessionMgr));
 
         /*Attributes***********************************************************/
 
@@ -33,28 +35,50 @@ namespace OpenSimBot.OMVWrapper.Manager
 
         }
 
-        public bool CreateBotSession(BotAgent bot) 
+        public BotSession FindBotSession(string firstname, string lastname)
         {
+            BotSession ret = null;
             foreach (BotSession sess in m_sessionList)
             {
-                if (0 == string.Compare(sess.Bot.Info.Firstname, bot.Info.Firstname, true) &&
-                    0 == string.Compare(sess.Bot.Info.Lastname, bot.Info.Lastname, true))
+                if (0 == string.Compare(sess.Bot.Info.Firstname, firstname, true) &&
+                    0 == string.Compare(sess.Bot.Info.Lastname, lastname, true))
                 {
-                    return false;
+                    return ret = sess;
                 }
             }
 
-            m_sessionList.Add(new BotSession(bot));
-            return true;
+            return ret; 
         }
 
-        public void RemoveBotSession(BotAgent bot)
+        public BotSession CreateBotSession(BotAgent bot) 
         {
+            BotSession ret = null;
             foreach (BotSession sess in m_sessionList)
             {
                 if (0 == string.Compare(sess.Bot.Info.Firstname, bot.Info.Firstname, true) &&
                     0 == string.Compare(sess.Bot.Info.Lastname, bot.Info.Lastname, true))
                 {
+                    m_log.Info("The session for bot" + 
+                               bot.Info.Firstname + " " + 
+                               bot.Info.Lastname +
+                               "is already existed.");
+                    ret = sess;
+                }
+            }
+
+            ret = new BotSession(bot);
+            m_sessionList.Add(ret);
+            return ret;
+        }
+
+        public void RemoveBotSession(string firstname, string lastname)
+        {
+            foreach (BotSession sess in m_sessionList)
+            {
+                if (0 == string.Compare(sess.Bot.Info.Firstname, firstname, true) &&
+                    0 == string.Compare(sess.Bot.Info.Lastname, lastname, true))
+                {
+                    sess.Bot.Assignment.AddStep(new BotAgent.BotAssignment.TestStep("logout", null));
                     m_sessionList.Remove(sess);
                 }
             }

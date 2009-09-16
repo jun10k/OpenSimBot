@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -25,7 +26,8 @@ namespace OpenSimBot.BotFramework
 
         public void Reset()
         {
-
+            BotSessionMgr.Instance.Reset();
+            CommandMgr.Instance.Reset();
         }
 
         public void SetNetworkLatency()
@@ -33,18 +35,46 @@ namespace OpenSimBot.BotFramework
 
         }
 
-        public bool Login(BotAgent.BotInfo info)
+        public bool Login(string firstname, 
+                          string lastname, 
+                          string password, 
+                          string servURI,
+                          string region,
+                          int x, // start location.
+                          int y,
+                          int z)
         {
+            BotAgent.BotInfo info = new BotAgent.BotInfo(firstname, lastname, password);
+            BotAgent bot = new BotAgent(info);
+            Hashtable paramList = new Hashtable();
+            paramList["region"] = region;
+            paramList["x"] = x.ToString();
+            paramList["y"] = y.ToString();
+            paramList["z"] = z.ToString();
+            bot.Assignment.AddStep(new BotAgent.BotAssignment.TestStep("login", paramList));
+            BotSessionMgr.Instance.CreateBotSession(bot);
+
             return false;
         }
 
-        public void Logout(BotAgent.BotInfo info)
+        public void Logout(string firstname, string lastname)
+        {
+            BotSessionMgr.Instance.RemoveBotSession(firstname, lastname);
+        }
+
+        public void Terminate(string firstname, string lastname)
+        {
+
+        }
+
+        public void LogoutAll()
         {
 
         }
 
         public bool BeginAssignment(BotAgent.BotInfo info)
         {
+
             return false;
         }
 

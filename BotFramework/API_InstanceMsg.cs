@@ -12,5 +12,15 @@ namespace OpenSimBot.BotFramework
         {
 
         }
+
+        public bool Chat(string firstname, string lastname, string msg)
+        {
+            return false;
+        }
+
+        public bool Chat(string msg)
+        {
+            return false;
+        }
     }
 }

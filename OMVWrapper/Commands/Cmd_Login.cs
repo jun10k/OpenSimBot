@@ -38,7 +38,12 @@ namespace OpenSimBot.OMVWrapper.Command
                 {
                     m_owner.Client.Network.OnConnected +=
                         new NetworkManager.ConnectedCallback(OnConnected);
-                    UpdateInfo info = new UpdateInfo(m_stepID);                
+                    UpdateInfo info = new UpdateInfo(m_stepID);
+                    BotAgent.BotAssignment.TestStep step = m_owner.Bot.Assignment.GetStepByID(m_stepID);
+                    NetworkManager.StartLocation(step.Params["region"].ToString(),
+                                                 (int)step.Params["x"],
+                                                 (int)step.Params["y"],
+                                                 (int)step.Params["z"]);
                     if (m_owner.Client.Network.Login(m_owner.Bot.Info.Firstname,
                                                      m_owner.Bot.Info.Lastname,
                                                      m_owner.Bot.Info.Password,
