@@ -1,8 +1,0 @@
-D:\Projects\OpenSimBot\bin\Debug\BotMonitor.exe
-D:\Projects\OpenSimBot\bin\Debug\BotMonitor.pdb
-D:\Projects\OpenSimBot\BotMonitor\obj\Debug\ResolveAssemblyReference.cache
-D:\Projects\OpenSimBot\BotMonitor\obj\Debug\BotMonitor.BotMonitor.resources
-D:\Projects\OpenSimBot\BotMonitor\obj\Debug\BotMonitor.Properties.Resources.resources
-D:\Projects\OpenSimBot\BotMonitor\obj\Debug\BotMonitor.csproj.GenerateResource.Cache
-D:\Projects\OpenSimBot\BotMonitor\obj\Debug\BotMonitor.exe
-D:\Projects\OpenSimBot\BotMonitor\obj\Debug\BotMonitor.pdb
