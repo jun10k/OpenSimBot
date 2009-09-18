@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 using OpenSimBot.OMVWrapper.Utility;
 using OpenSimBot.OMVWrapper.Command;
@@ -10,31 +11,45 @@ using log4net;
 
 namespace OpenSimBot.OMVWrapper.Manager
 {
-    public delegate void Cmd_Login();
-    public delegate void Cmd_Logout();
-
     public class CommandMgr : Singleton<CommandMgr>, IManager
     {
         /*Members**************************************************************/
-        private const string INSTRUCTION_LOGIN = "login";
-
         protected static readonly ILog m_log = 
             LogManager.GetLogger(typeof(CommandMgr));
         private System.Object m_queueLock = new System.Object();
         private readonly List<string> m_instructionList = new List<string>();
         private Queue<ICommand> m_cmdQueue = new Queue<ICommand>();
+        private AutoResetEvent m_loopEvent = new AutoResetEvent(false);
+        private bool m_isToQuit = false;
 
         /*Functions************************************************************/
         public bool Initialize()
         {
-            m_instructionList.Add(INSTRUCTION_LOGIN);
+            m_instructionList.Add(Cmd_Chat.CMD_NAME);
+            m_instructionList.Add(Cmd_Login.CMD_NAME);
+            m_instructionList.Add(Cmd_MoveTo.CMD_NAME);
+            m_instructionList.Add(Cmd_RandomMoving.CMD_NAME);
+            m_instructionList.Add(Cmd_ToFly.CMD_NAME);
 
             return false;
         }
 
+        public void Uninitialize()
+        {
+            lock (m_queueLock)
+            {
+                m_isToQuit = true;
+                m_cmdQueue.Clear();
+                m_instructionList.Clear();
+            }
+        }
+
         public void Reset()
         {
-            m_instructionList.Clear();
+            lock (m_queueLock)
+            {
+                m_cmdQueue.Clear();
+            }
         }
 
         public bool IsValidInstruction(string name)
@@ -64,7 +79,9 @@ namespace OpenSimBot.OMVWrapper.Manager
                         lock (m_queueLock)
                         {
                             cmd.OnCmdUpdated += cmdUpdatedHandler;
+                            bool toWakeQueueThread = (0 == m_cmdQueue.Count) ? true : false;
                             m_cmdQueue.Enqueue(cmd);
+                            if (toWakeQueueThread) m_loopEvent.Set();
                             ret = true;
                         }
                     }
@@ -77,7 +94,7 @@ namespace OpenSimBot.OMVWrapper.Manager
                 {
                     m_log.Info("SESSION: (" + owner.Bot.Info.Firstname + " " +
                                owner.Bot.Info.Lastname + ") finished its assignment.");
-                    UpdateInfo info = new UpdateInfo(step.ID);
+                    UpdateInfo info = new UpdateInfo(step.ID, null);
                     info.Status = UpdateInfo.CommandStatus.CMD_FAIL;
                     info.Description = "Illegal instruction for the bot (" +
                                        owner.Bot.Info.Firstname + " " +
@@ -89,22 +106,24 @@ namespace OpenSimBot.OMVWrapper.Manager
             return ret;
         }
 
-        private bool ProcessCommands()
+        private void ProcessCommands()
         {
-            bool ret = false;
             lock (m_queueLock)
             {
-                if (0 < m_cmdQueue.Count)
+                while (0 < m_cmdQueue.Count && ! m_isToQuit)
                 {
                     ICommand cmd = m_cmdQueue.Dequeue();
                     if (null != cmd)
                     {
-                        ret = cmd.Execute();
+                        cmd.Execute();
+                    }
+
+                    if (0 == m_cmdQueue.Count)
+                    {
+                        m_loopEvent.WaitOne();
                     }
                 }
             }
-
-            return ret;
         }
     }
 }

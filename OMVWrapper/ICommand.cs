@@ -10,6 +10,8 @@ namespace OpenSimBot.OMVWrapper.Command
     public interface ICommand
     {
         bool Execute();
+        void PostExecute();
+        string Name { get; }
         event CmdUpdated OnCmdUpdated;
     }
 
@@ -27,6 +29,7 @@ namespace OpenSimBot.OMVWrapper.Command
         private CommandStatus m_status = CommandStatus.CMD_READY;
         private readonly Guid m_stepID = Guid.Empty;
         private string m_description = string.Empty;
+        private ICommand m_owner = null;
 
         /*Attributes***********************************************************/
         public CommandStatus Status
@@ -40,6 +43,11 @@ namespace OpenSimBot.OMVWrapper.Command
             get { return m_stepID; }
         }
 
+        public ICommand Owner
+        {
+            get { return m_owner; }
+        }
+
         public string Description
         {
             get { return m_description; }
@@ -47,9 +55,10 @@ namespace OpenSimBot.OMVWrapper.Command
         }
 
         /*Functions************************************************************/
-        public UpdateInfo(Guid stepID)
+        public UpdateInfo(Guid stepID, ICommand owner)
         {
             m_stepID = stepID;
+            m_owner = owner;
         }
     }
 }

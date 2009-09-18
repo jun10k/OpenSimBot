@@ -15,11 +15,18 @@ namespace OpenSimBot.OMVWrapper.Command
         /*Members**************************************************************/
         public event CmdUpdated OnCmdUpdated;
         protected const int LOGIN_TIMEOUT = 30000;
+        public const string CMD_NAME = "Login";
         private AutoResetEvent m_loginEvent = new AutoResetEvent(false);
         private readonly Guid m_stepID = Guid.Empty;
         private readonly BotSessionMgr.BotSession m_owner = null;
         protected static readonly ILog m_log = 
             LogManager.GetLogger(typeof(Cmd_Login));
+
+        /*Attributes***********************************************************/
+        public string Name
+        {
+            get { return CMD_NAME; }
+        }
 
         /*Functions************************************************************/
         public Cmd_Login(Guid stepID, BotSessionMgr.BotSession owner)
@@ -38,7 +45,7 @@ namespace OpenSimBot.OMVWrapper.Command
                 {
                     m_owner.Client.Network.OnConnected +=
                         new NetworkManager.ConnectedCallback(OnConnected);
-                    UpdateInfo info = new UpdateInfo(m_stepID);
+                    UpdateInfo info = new UpdateInfo(m_stepID, this);
                     BotAgent.BotAssignment.TestStep step = m_owner.Bot.Assignment.GetStepByID(m_stepID);
                     NetworkManager.StartLocation(step.Params["region"].ToString(),
                                                  (int)step.Params["x"],
@@ -71,6 +78,10 @@ namespace OpenSimBot.OMVWrapper.Command
             }
 
             return ret;
+        }
+
+        public void PostExecute()
+        {
         }
 
         public void OnConnected(object sender)

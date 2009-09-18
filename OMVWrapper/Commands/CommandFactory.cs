@@ -17,14 +17,25 @@ namespace OpenSimBot.OMVWrapper.Command
             ICommand cmd = null;
             switch (owner.Bot.Assignment.GetStepByID(stepID).Name)
             {
-                case "login":
+                case Cmd_Login.CMD_NAME:
                     cmd = new Cmd_Login(stepID, owner);
                     break;
 
-                case "chat":
+                case Cmd_Chat.CMD_NAME:
                     cmd = new Cmd_Chat(stepID, owner);
                     break;
 
+                case Cmd_MoveTo.CMD_NAME:
+                    cmd = new Cmd_MoveTo(stepID, owner);
+                    break;
+
+                case Cmd_RandomMoving.CMD_NAME:
+                    cmd = new Cmd_RandomMoving(stepID, owner);
+                    break;
+
+                case Cmd_ToFly.CMD_NAME:
+                    cmd = new Cmd_ToFly(stepID, owner);
+                    break;
             }
 
             return cmd;

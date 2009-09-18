@@ -71,14 +71,14 @@ namespace OpenSimBot.OMVWrapper.Manager
             return ret;
         }
 
-        public void RemoveBotSession(string firstname, string lastname)
+        public void RemoveBotSession(string firstname, string lastname, bool isAll)
         {
             foreach (BotSession sess in m_sessionList)
             {
                 if (0 == string.Compare(sess.Bot.Info.Firstname, firstname, true) &&
-                    0 == string.Compare(sess.Bot.Info.Lastname, lastname, true))
+                    0 == string.Compare(sess.Bot.Info.Lastname, lastname, true) || isAll)
                 {
-                    sess.Bot.Assignment.AddStep(new BotAgent.BotAssignment.TestStep("logout", null));
+                    sess.Terminate();
                     m_sessionList.Remove(sess);
                 }
             }
@@ -100,6 +100,7 @@ namespace OpenSimBot.OMVWrapper.Manager
             private GridClient m_omvClient = new GridClient();
             private AutoResetEvent m_loopEvent = new AutoResetEvent(false);
             private SessionStatus m_status = SessionStatus.SESS_WAIT;
+            private bool isToQuitSession = false;
 
             /*Attributes*******************************************************/
             public SessionStatus Status
@@ -137,8 +138,23 @@ namespace OpenSimBot.OMVWrapper.Manager
                 }
             }
 
+            public void Terminate()
+            {
+                isToQuitSession = true;
+                Client.Network.Logout();
+                m_status = SessionStatus.SESS_WAIT;
+            }
+
             private void OnSessionUpdated(UpdateInfo cmdInfo)
             {
+                if (null != cmdInfo.Owner)
+                {
+                    if (Cmd_RandomMoving.CMD_NAME == cmdInfo.Owner.Name)
+                    {
+                        cmdInfo.Owner.PostExecute();
+                    }
+                }
+
                 m_loopEvent.Set();
             }
 
@@ -146,11 +162,11 @@ namespace OpenSimBot.OMVWrapper.Manager
             {
                 if (m_botAgent != null)
                 {
-                    if (!CommandMgr.Instance.ProcessTestSteps(this, new CmdUpdated(OnSessionUpdated)))
+                    while (!isToQuitSession)
                     {
-                            m_loopEvent.WaitOne();
+                        CommandMgr.Instance.ProcessTestSteps(this, new CmdUpdated(OnSessionUpdated));
+                        m_loopEvent.WaitOne();
                     }
-                    
                 }
             }
         }

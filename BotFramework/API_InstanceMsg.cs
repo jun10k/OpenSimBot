@@ -22,5 +22,10 @@ namespace OpenSimBot.BotFramework
         {
             return false;
         }
+
+        public bool RandomChating()
+        {
+            return false;
+        }
     }
 }

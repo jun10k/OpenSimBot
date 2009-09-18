@@ -59,20 +59,15 @@ namespace OpenSimBot.BotFramework
 
         public void Logout(string firstname, string lastname)
         {
-            BotSessionMgr.Instance.RemoveBotSession(firstname, lastname);
-        }
-
-        public void Terminate(string firstname, string lastname)
-        {
-
+            BotSessionMgr.Instance.RemoveBotSession(firstname, lastname, false);
         }
 
         public void LogoutAll()
         {
-
+            BotSessionMgr.Instance.RemoveBotSession(null, null, true);
         }
 
-        public bool BeginAssignment(BotAgent.BotInfo info)
+        public bool BeginAssignment(string firstname, string lastname)
         {
 
             return false;

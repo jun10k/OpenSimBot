@@ -62,6 +62,9 @@
     <Compile Include="CommandMgr.cs" />
     <Compile Include="Commands\Cmd_Chat.cs" />
     <Compile Include="Commands\Cmd_Login.cs" />
+    <Compile Include="Commands\Cmd_MoveTo.cs" />
+    <Compile Include="Commands\Cmd_RandomMoving.cs" />
+    <Compile Include="Commands\Cmd_ToFly.cs" />
     <Compile Include="Commands\CommandFactory.cs" />
     <Compile Include="Commands\ICommandFactory.cs" />
     <Compile Include="ConfigureMgr.cs" />
