@@ -11,8 +11,6 @@ namespace OpenSimBot.BotFramework
 {
     public class API_Base : Singleton<API_Base>
     {
-        /*Members**************************************************************/
-
         /*Functions************************************************************/
         public bool InitializeAll()
         {

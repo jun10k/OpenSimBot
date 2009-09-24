@@ -34,6 +34,22 @@ namespace OpenSimBot.OMVWrapper.Command
 
         public bool Execute() 
         {
+            if (null != m_owner.Client)
+            {
+                ulong globalX = (ulong)m_owner.Bot.Assignment.GetStepByID(m_stepID).Params["globalX"];
+                ulong globalY = (ulong)m_owner.Bot.Assignment.GetStepByID(m_stepID).Params["globalY"];
+                float z = (float)m_owner.Bot.Assignment.GetStepByID(m_stepID).Params["z"];
+
+                m_owner.Client.Self.AutoPilot(globalX, globalY, z);
+                UpdateInfo info = new UpdateInfo(m_stepID, this);
+                info.Description = "Bot{" + m_owner.Bot.Info.Firstname + " " +
+                                   m_owner.Bot.Info.Lastname + "}" + "move to {" +
+                                   globalX.ToString() + "," + globalY.ToString() + "," +
+                                   z.ToString() + "}";
+                info.Status = UpdateInfo.CommandStatus.CMD_SUCCESS;
+                OnCmdUpdated.Invoke(info);
+            }
+
             return false;
         }
 

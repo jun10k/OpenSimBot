@@ -8,11 +8,6 @@ namespace OpenSimBot.BotFramework
 {
     public sealed class API_InstanceMsg : Singleton<API_InstanceMsg>
     {
-        public API_InstanceMsg()
-        {
-
-        }
-
         public bool Chat(string firstname, string lastname, string msg)
         {
             return false;

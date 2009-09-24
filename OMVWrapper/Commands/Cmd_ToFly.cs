@@ -34,12 +34,19 @@ namespace OpenSimBot.OMVWrapper.Command
 
         public bool Execute() 
         {
+            if (null != m_owner.Client)
+            {
+                bool isCancel = (bool)m_owner.Bot.Assignment.GetStepByID(m_stepID).Params["isCancel"];
+                m_owner.Client.Self.Fly(!isCancel);
+                UpdateInfo info = new UpdateInfo(m_stepID, this);
+                info.Description = "Fly:" + isCancel.ToString();
+                info.Status = UpdateInfo.CommandStatus.CMD_SUCCESS;
+                OnCmdUpdated.Invoke(info);
+            }
+
             return false;
         }
 
-        public void PostExecute()
-        {
-
-        }
+        public void PostExecute() {}
     }
 }
