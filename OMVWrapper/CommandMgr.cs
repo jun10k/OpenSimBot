@@ -31,6 +31,10 @@ namespace OpenSimBot.OMVWrapper.Manager
             m_instructionList.Add(Cmd_RandomMoving.CMD_NAME);
             m_instructionList.Add(Cmd_ToFly.CMD_NAME);
 
+            // Start processing commands.
+            WaitCallback cmdRoutin = new WaitCallback(ProcessCommands);
+            ThreadPool.QueueUserWorkItem(cmdRoutin);
+
             return false;
         }
 
@@ -54,7 +58,7 @@ namespace OpenSimBot.OMVWrapper.Manager
 
         public bool IsValidInstruction(string name)
         {
-            return m_instructionList.Contains(name.ToLower());
+            return m_instructionList.Contains(name);
         }
 
         public bool ProcessTestSteps(BotSessionMgr.BotSession owner,
@@ -106,21 +110,24 @@ namespace OpenSimBot.OMVWrapper.Manager
             return ret;
         }
 
-        private void ProcessCommands()
+        private void ProcessCommands(Object threadContext)
         {
-            lock (m_queueLock)
+            while (! m_isToQuit)
             {
-                while (0 < m_cmdQueue.Count && ! m_isToQuit)
+                if (0 == m_cmdQueue.Count)
                 {
-                    ICommand cmd = m_cmdQueue.Dequeue();
+                    m_loopEvent.WaitOne();
+                }
+                else
+                {
+                    ICommand cmd = null;
+                    lock (m_queueLock)
+                    {
+                        cmd = m_cmdQueue.Dequeue();
+                    }
                     if (null != cmd)
                     {
                         cmd.Execute();
-                    }
-
-                    if (0 == m_cmdQueue.Count)
-                    {
-                        m_loopEvent.WaitOne();
                     }
                 }
             }

@@ -6,7 +6,7 @@ using OpenSimBot.OMVWrapper.Utility;
 
 namespace OpenSimBot.BotFramework
 {
-    public sealed class API_Movement : Singleton<API_Movement>
+    public class API_Movement : Singleton<API_Movement>
     {
 
         public bool MoveTo(string firstname, 

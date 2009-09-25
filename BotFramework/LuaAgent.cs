@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 using OpenSimBot.OMVWrapper.Utility;
 using LuaInterface;
 
 namespace OpenSimBot.BotFramework
 {
-    class LuaAgent : Singleton<LuaAgent>
+    public class LuaAgent : Singleton<LuaAgent>
     {
         /*Members**************************************************************/
         private Lua m_luaInterface = new Lua();
@@ -16,12 +17,12 @@ namespace OpenSimBot.BotFramework
         public LuaAgent()
         {
             // API_Base Interface
-            m_luaInterface.RegisterFunction("InitializeAll", 
-                                            API_Base.Instance, 
-                                            API_Base.Instance.GetType().GetMethod("InitializeAll"));
             m_luaInterface.RegisterFunction("Reset",
                                             API_Base.Instance,
                                             API_Base.Instance.GetType().GetMethod("Reset"));
+            m_luaInterface.RegisterFunction("Login",
+                                            API_Base.Instance,
+                                            API_Base.Instance.GetType().GetMethod("Login"));
             m_luaInterface.RegisterFunction("Logout",
                                             API_Base.Instance,
                                             API_Base.Instance.GetType().GetMethod("Logout"));
@@ -60,7 +61,11 @@ namespace OpenSimBot.BotFramework
             string dir = ConfigAgent.Instance.GetScriptsDirectory();
             if (!string.IsNullOrEmpty(dir))
             {
-
+                string[] scripts = ConfigAgent.Instance.GetScriptsNameList();
+                foreach (string script in scripts)
+                {
+                    m_luaInterface.DoFile(script);
+                }
             }
         }
 

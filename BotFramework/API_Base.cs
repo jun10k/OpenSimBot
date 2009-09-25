@@ -36,20 +36,13 @@ namespace OpenSimBot.BotFramework
         public bool Login(string firstname, 
                           string lastname, 
                           string password, 
-                          string servURI,
-                          string region,
-                          int x, // start location.
-                          int y,
-                          int z)
+                          string servURI)
         {
             BotAgent.BotInfo info = new BotAgent.BotInfo(firstname, lastname, password);
             BotAgent bot = new BotAgent(info);
             Hashtable paramList = new Hashtable();
-            paramList["region"] = region;
-            paramList["x"] = x.ToString();
-            paramList["y"] = y.ToString();
-            paramList["z"] = z.ToString();
-            bot.Assignment.AddStep(new BotAgent.BotAssignment.TestStep("login", paramList));
+            paramList["servURI"] = servURI;
+            bot.Assignment.AddStep(new BotAgent.BotAssignment.TestStep("Login", paramList));
             BotSessionMgr.Instance.CreateBotSession(bot);
 
             return false;

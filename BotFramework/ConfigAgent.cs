@@ -27,7 +27,6 @@ namespace OpenSimBot.BotFramework
                 return Directory.GetFiles(dir, "*.lua");
             }
 
-
             return null;
         }
     }

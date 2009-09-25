@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+using OpenSimBot.BotFramework;
+
 namespace BotMonitor
 {
     public partial class BotMonitor : Form
@@ -14,6 +16,8 @@ namespace BotMonitor
         public BotMonitor()
         {
             InitializeComponent();
+            API_Base.Instance.InitializeAll();
+            LuaAgent.Instance.ProcessScripts();
         }
     }
 }
