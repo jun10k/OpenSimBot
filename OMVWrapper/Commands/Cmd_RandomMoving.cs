@@ -39,6 +39,7 @@ namespace OpenSimBot.OMVWrapper.Command
         {
             try
             {
+                isToQuitRandomMoving = false;
                 WaitCallback randomMovingRoutin =
                         new WaitCallback(RandomMovingRoutin);
                 ThreadPool.QueueUserWorkItem(randomMovingRoutin);
@@ -49,6 +50,7 @@ namespace OpenSimBot.OMVWrapper.Command
                             m_owner.Bot.Info.Firstname + " " +
                             m_owner.Bot.Info.Lastname);
             }
+
             return false;
         }
 
@@ -61,7 +63,7 @@ namespace OpenSimBot.OMVWrapper.Command
         {
             if (null == m_owner) return;
 
-            while (isToQuitRandomMoving)
+            while (!isToQuitRandomMoving)
             {
                 if (0 == (random.Next() % 2))
                 {

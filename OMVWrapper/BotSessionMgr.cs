@@ -147,11 +147,26 @@ namespace OpenSimBot.OMVWrapper.Manager
 
             private void OnSessionUpdated(UpdateInfo cmdInfo)
             {
+                if (null == cmdInfo) return;
                 if (null != cmdInfo.Owner)
                 {
                     if (Cmd_RandomMoving.CMD_NAME == cmdInfo.Owner.Name)
                     {
                         cmdInfo.Owner.PostExecute();
+                    }
+
+                    switch (cmdInfo.Status)
+                    {
+                        case UpdateInfo.CommandStatus.CMD_SUCCESS:
+                            m_botAgent.Assignment.GetStepByID(cmdInfo.StepID).Status =
+                                BotAgent.BotAssignment.TestStep.TestStatus.TESTSTEP_SUCESS;
+                            break;
+
+                        case UpdateInfo.CommandStatus.CMD_FAIL:
+                        case UpdateInfo.CommandStatus.CMD_ERROR:
+                            m_botAgent.Assignment.GetStepByID(cmdInfo.StepID).Status =
+                                BotAgent.BotAssignment.TestStep.TestStatus.TESTSTEP_FAILE;
+                            break;
                     }
                 }
 

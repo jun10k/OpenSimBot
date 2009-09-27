@@ -134,7 +134,7 @@ namespace OpenSimBot.OMVWrapper
                 TestStep ret = null;
                 foreach (TestStep step in m_stepList)
                 {
-                    if (null != step)
+                    if (Guid.Equals(id, step.ID))
                     {
                         ret = step;
                     }
@@ -154,7 +154,7 @@ namespace OpenSimBot.OMVWrapper
                     TESTSTEP_PROCESSING,
                     TESTSTEP_SUCESS,
                 }
-                private readonly Guid m_stepID = new Guid();
+                private readonly Guid m_stepID = Guid.NewGuid();
                 private readonly string m_name; 
                 private readonly Hashtable m_paramList;
                 private TestStatus m_status = TestStatus.TESTSTEP_WAIT;

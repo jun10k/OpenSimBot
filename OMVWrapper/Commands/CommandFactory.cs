@@ -15,27 +15,30 @@ namespace OpenSimBot.OMVWrapper.Command
                                       BotSessionMgr.BotSession owner)
         {
             ICommand cmd = null;
-            switch (owner.Bot.Assignment.GetStepByID(stepID).Name)
+            if (Guid.Empty != stepID)
             {
-                case Cmd_Login.CMD_NAME:
-                    cmd = new Cmd_Login(stepID, owner);
-                    break;
+                switch (owner.Bot.Assignment.GetStepByID(stepID).Name)
+                {
+                    case Cmd_Login.CMD_NAME:
+                        cmd = new Cmd_Login(stepID, owner);
+                        break;
 
-                case Cmd_Chat.CMD_NAME:
-                    cmd = new Cmd_Chat(stepID, owner);
-                    break;
+                    case Cmd_Chat.CMD_NAME:
+                        cmd = new Cmd_Chat(stepID, owner);
+                        break;
 
-                case Cmd_MoveTo.CMD_NAME:
-                    cmd = new Cmd_MoveTo(stepID, owner);
-                    break;
+                    case Cmd_MoveTo.CMD_NAME:
+                        cmd = new Cmd_MoveTo(stepID, owner);
+                        break;
 
-                case Cmd_RandomMoving.CMD_NAME:
-                    cmd = new Cmd_RandomMoving(stepID, owner);
-                    break;
+                    case Cmd_RandomMoving.CMD_NAME:
+                        cmd = new Cmd_RandomMoving(stepID, owner);
+                        break;
 
-                case Cmd_ToFly.CMD_NAME:
-                    cmd = new Cmd_ToFly(stepID, owner);
-                    break;
+                    case Cmd_ToFly.CMD_NAME:
+                        cmd = new Cmd_ToFly(stepID, owner);
+                        break;
+                }
             }
 
             return cmd;

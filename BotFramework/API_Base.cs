@@ -57,16 +57,5 @@ namespace OpenSimBot.BotFramework
         {
             BotSessionMgr.Instance.RemoveBotSession(null, null, true);
         }
-
-        public bool BeginAssignment(string firstname, string lastname)
-        {
-
-            return false;
-        }
-
-        public void EndAssignment()
-        {
-
-        }
     }
 }

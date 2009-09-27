@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 
 using OpenSimBot.OMVWrapper.Utility;
+using OpenSimBot.OMVWrapper.Manager;
+using OpenSimBot.OMVWrapper;
 
 namespace OpenSimBot.BotFramework
 {
@@ -19,10 +21,14 @@ namespace OpenSimBot.BotFramework
         }
 
         public void RandomMoving(string firstname, 
-                                 string lastname, 
-                                 bool isCancel)
+                                 string lastname)
         {
-
+            BotSessionMgr.BotSession sess = 
+                BotSessionMgr.Instance.FindBotSession(firstname, lastname);
+            if (null != sess)
+            {
+                sess.Bot.Assignment.AddStep(new BotAgent.BotAssignment.TestStep("RandomMoving", null));
+            }
         }
 
         public void ToFly(string firstname, string lastname, bool isCancel)

@@ -29,12 +29,6 @@ namespace OpenSimBot.BotFramework
             m_luaInterface.RegisterFunction("LogoutAll",
                                             API_Base.Instance,
                                             API_Base.Instance.GetType().GetMethod("LogoutAll"));
-            m_luaInterface.RegisterFunction("BeginAssignment",
-                                            API_Base.Instance,
-                                            API_Base.Instance.GetType().GetMethod("BeginAssignment"));
-            m_luaInterface.RegisterFunction("EndAssignment",
-                                            API_Base.Instance,
-                                            API_Base.Instance.GetType().GetMethod("EndAssignment"));
 
             // API_Movement Interface
             m_luaInterface.RegisterFunction("MoveTo",
@@ -50,7 +44,7 @@ namespace OpenSimBot.BotFramework
             // API_InstanceMsg Interface
             m_luaInterface.RegisterFunction("Chat",
                                             API_InstanceMsg.Instance,
-                                            API_InstanceMsg.Instance.GetType().GetMethod("Chat"));
+                                            API_InstanceMsg.Instance.GetType().GetMethod("UserChat"));
             m_luaInterface.RegisterFunction("RandomChating",
                                             API_InstanceMsg.Instance,
                                             API_InstanceMsg.Instance.GetType().GetMethod("RandomChating"));

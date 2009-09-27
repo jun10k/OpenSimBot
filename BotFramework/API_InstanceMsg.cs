@@ -13,12 +13,7 @@ namespace OpenSimBot.BotFramework
             return false;
         }
 
-        public bool Chat(string msg)
-        {
-            return false;
-        }
-
-        public bool RandomChating()
+        public bool RandomChating(string script)
         {
             return false;
         }

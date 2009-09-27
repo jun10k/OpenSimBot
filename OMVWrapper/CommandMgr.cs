@@ -74,9 +74,9 @@ namespace OpenSimBot.OMVWrapper.Manager
                                owner.Bot.Info.Lastname + ") finished its assignment.");
                     cmdUpdatedHandler.Invoke(null);
                 }
-
-                if (null != step && IsValidInstruction(step.Name))
+                else if (IsValidInstruction(step.Name))
                 {
+                    step.Status = BotAgent.BotAssignment.TestStep.TestStatus.TESTSTEP_PROCESSING;
                     ICommand cmd = OMVCommandFactory.Instance.CreateCommand(step.ID, owner);
                     if (cmd != null)
                     {
@@ -96,8 +96,8 @@ namespace OpenSimBot.OMVWrapper.Manager
                 }
                 else
                 {
-                    m_log.Info("SESSION: (" + owner.Bot.Info.Firstname + " " +
-                               owner.Bot.Info.Lastname + ") finished its assignment.");
+                    m_log.Info("SESSION: Invalid instruction for bot(" + 
+                        owner.Bot.Info.Firstname + " " + owner.Bot.Info.Lastname + ")");
                     UpdateInfo info = new UpdateInfo(step.ID, null);
                     info.Status = UpdateInfo.CommandStatus.CMD_FAIL;
                     info.Description = "Illegal instruction for the bot (" +

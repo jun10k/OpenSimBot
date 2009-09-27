@@ -4,6 +4,7 @@ using System.Text;
 using System.IO;
 
 using OpenSimBot.OMVWrapper.Utility;
+using OpenSimBot.OMVWrapper.Manager;
 
 namespace OpenSimBot.BotFramework
 {
@@ -12,6 +13,7 @@ namespace OpenSimBot.BotFramework
         /*Members**************************************************************/
         public const int BOT_CONFIG_MAXNUM = 100;
         public const string BOT_SCRIPTES_DIR = "./";
+        private BotSessionMgr.BotSession m_currentSess = null;
 
         /*Functions************************************************************/
         public string GetScriptsDirectory()
