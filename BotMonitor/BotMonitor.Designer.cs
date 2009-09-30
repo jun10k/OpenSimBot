@@ -37,6 +37,7 @@
             this.ClientSize = new System.Drawing.Size(668, 490);
             this.Name = "BotMonitor";
             this.Text = "Bot Monitor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BotMonitor_FormClosing);
             this.ResumeLayout(false);
 
         }

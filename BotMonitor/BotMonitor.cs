@@ -19,5 +19,10 @@ namespace BotMonitor
             API_Base.Instance.InitializeAll();
             LuaAgent.Instance.ProcessScripts();
         }
+
+        private void BotMonitor_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            API_Base.Instance.LogoutAll();
+        }
     }
 }

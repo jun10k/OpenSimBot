@@ -15,6 +15,7 @@ namespace OpenSimBot.OMVWrapper.Manager
     {
         /*Members**************************************************************/
         private List<BotSession> m_sessionList = new List<BotSession>();
+        private Simulator.SimStats m_simStats;
         protected static readonly ILog m_log =
             LogManager.GetLogger(typeof(BotSessionMgr));
 
