@@ -28,10 +28,27 @@ namespace OpenSimBot.BotFramework
             CommandMgr.Instance.Reset();
         }
 
-        public void SetNetworkLatency()
+        #region Network Simulation
+        public void SimulatePackageLoss(float simulatedLoss)
         {
-
+            BotSessionMgr.Instance.SimulatedLoss = simulatedLoss;
         }
+
+        public void SimulateMinimumLatency(float simulatedMinimumLatency)
+        {
+            BotSessionMgr.Instance.SimulatedMinimumLatency = simulatedMinimumLatency;
+        }
+
+        public void SimulateLatencyVariance(float simulatgedLatencyVariance)
+        {
+            BotSessionMgr.Instance.SimulatedLatencyVariance = simulatgedLatencyVariance;
+        }
+
+        public void SimulatedDuplicateChance(float simulatedDuplicateChance)
+        {
+            BotSessionMgr.Instance.SimulatedDuplicateChance = simulatedDuplicateChance;
+        }
+        #endregion
 
         public bool Login(string firstname, 
                           string lastname, 

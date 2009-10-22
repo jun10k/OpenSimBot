@@ -14,12 +14,40 @@ namespace OpenSimBot.OMVWrapper.Manager
     public class BotSessionMgr : Singleton<BotSessionMgr>, IManager
     {
         /*Members**************************************************************/
+        private float m_simulatedLoss;
+        private float m_simulatedDuplicateChance;
+        private float m_simulatedMinimumLatency;
+        private float m_simulatedLatencyVariance;
+
         private List<BotSession> m_sessionList = new List<BotSession>();
         private Simulator.SimStats m_simStats;
         protected static readonly ILog m_log =
             LogManager.GetLogger(typeof(BotSessionMgr));
 
         /*Attributes***********************************************************/
+        public float SimulatedLoss
+        {
+            get { return m_simulatedLoss; }
+            set { m_simulatedLoss = value; }
+        }
+
+        public float SimulatedDuplicateChance
+        {
+            get { return m_simulatedDuplicateChance; }
+            set { m_simulatedDuplicateChance = value; }
+        }
+
+        public float SimulatedMinimumLatency
+        {
+            get { return m_simulatedMinimumLatency; }
+            set { m_simulatedMinimumLatency = value; }
+        }
+
+        public float SimulatedLatencyVariance
+        {
+            get { return m_simulatedLatencyVariance; }
+            set { m_simulatedLatencyVariance = value; }
+        } 
 
         /*Functions************************************************************/
         public BotSessionMgr()
@@ -67,8 +95,17 @@ namespace OpenSimBot.OMVWrapper.Manager
                 }
             }
 
-            ret = new BotSession(bot);
-            m_sessionList.Add(ret);
+            if (null == ret)
+            {
+                ret = new BotSession(bot);
+                ret.Client.Network.SimulatedDuplicateChance = m_simulatedDuplicateChance;
+                ret.Client.Network.SimulatedLatencyVariance = m_simulatedLatencyVariance;
+                ret.Client.Network.SimulatedLoss = m_simulatedLoss;
+                ret.Client.Network.SimulatedMinimumLatency = m_simulatedMinimumLatency;
+
+                m_sessionList.Add(ret);
+            }
+
             return ret;
         }
 
