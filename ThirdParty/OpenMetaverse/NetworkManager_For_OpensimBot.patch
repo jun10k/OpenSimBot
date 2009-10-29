@@ -1,0 +1,73 @@
+Index: NetworkManager.cs
+===================================================================
+--- NetworkManager.cs	(revision 3141)
++++ NetworkManager.cs	(working copy)
+@@ -285,6 +285,40 @@
+ 
+         #endregion Properties
+ 
++        #region OpenSimBot
++
++        public float SimulatedLoss
++        {
++            get { return m_simulatedLoss; }
++            set { m_simulatedLoss = value; }
++        }
++
++        public float SimulatedDuplicateChance
++        {
++            get { return m_simulatedDuplicateChance; }
++            set { m_simulatedDuplicateChance = value; }
++        }
++
++        public float SimulatedMinimumLatency
++        {
++            get { return m_simulatedMinimumLatency; }
++            set { m_simulatedMinimumLatency = value; }
++        }
++
++        public float SimulatedLatencyVariance
++        {
++            get { return m_simulatedLatencyVariance; }
++            set { m_simulatedLatencyVariance = value; }
++        }
++
++        private float m_simulatedLoss;
++		private float m_simulatedDuplicateChance;
++		private float m_simulatedMinimumLatency;
++        private float m_simulatedLatencyVariance;
++        private Random m_randomGenerator = new Random();
++
++        #endregion
++
+         /// <summary>All of the simulators we are currently connected to</summary>
+         public List<Simulator> Simulators = new List<Simulator>();
+ 
+@@ -736,6 +770,27 @@
+                         Thread.Sleep(10 - (int)stopwatch.ElapsedMilliseconds);
+                     }
+ 
++                    if (m_simulatedLoss > 0.0f)
++                    {
++                        // Count the loss packets...
++                        return;
++                    }
++
++                    if (m_simulatedDuplicateChance > 0.0f)
++                    {
++                        if ((float)m_randomGenerator.NextDouble() < m_simulatedDuplicateChance)
++                        {
++                            simulator.SendPacketFinal(outgoingPacket);
++                            Thread.Sleep(10);
++                        }
++                    }
++
++                    if (m_simulatedMinimumLatency > 0.0f || m_simulatedLatencyVariance > 0.0f)
++                    {
++                        Thread.Sleep((int)(m_simulatedMinimumLatency * 0.5f +
++                                           m_simulatedLatencyVariance * 0.5f));
++                    }
++
+                     simulator.SendPacketFinal(outgoingPacket);
+                     stopwatch.Start();
+                 }
