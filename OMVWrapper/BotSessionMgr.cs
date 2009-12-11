@@ -64,13 +64,14 @@ namespace OpenSimBot.OMVWrapper.Manager
 
         }
 
-        public BotSession FindBotSession(string firstname, string lastname)
+        public BotSession FindBotSession(string firstname, string lastname, string servURI)
         {
             BotSession ret = null;
             foreach (BotSession sess in m_sessionList)
             {
                 if (0 == string.Compare(sess.Bot.Info.Firstname, firstname, true) &&
-                    0 == string.Compare(sess.Bot.Info.Lastname, lastname, true))
+                    0 == string.Compare(sess.Bot.Info.Lastname, lastname, true) &&
+                    0 == string.Compare(sess.Bot.Info.Server, servURI, true))
                 {
                     return ret = sess;
                 }
@@ -84,12 +85,11 @@ namespace OpenSimBot.OMVWrapper.Manager
             BotSession ret = null;
             foreach (BotSession sess in m_sessionList)
             {
-                if (0 == string.Compare(sess.Bot.Info.Firstname, bot.Info.Firstname, true) &&
-                    0 == string.Compare(sess.Bot.Info.Lastname, bot.Info.Lastname, true))
+                if (null != FindBotSession(bot.Info.Firstname, bot.Info.Lastname, bot.Info.Server))
                 {
                     m_log.Info("The session for bot" + 
                                bot.Info.Firstname + " " + 
-                               bot.Info.Lastname +
+                               bot.Info.Lastname + "in server[" + bot.Info.Server + "]" +
                                "is already existed.");
                     ret = sess;
                 }

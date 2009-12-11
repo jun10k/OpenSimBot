@@ -41,6 +41,7 @@ namespace OpenSimBot.OMVWrapper
             private readonly string m_firstname;
             private readonly string m_lastname;
             private readonly string m_password;
+            private readonly string m_servURI;
 
             /*Attributes*******************************************************/
             public string Firstname
@@ -57,14 +58,22 @@ namespace OpenSimBot.OMVWrapper
             {
                 get { return m_password; }
             }
+
+            public string Server
+            {
+                get { return m_servURI; }
+            }
+            
             /*Functions********************************************************/
             public BotInfo(string firstname,
                            string lastname,
-                           string password)
+                           string password,
+                           string servURI)
             {
                 m_firstname = firstname;
                 m_lastname = lastname;
                 m_password = password;
+                m_servURI = servURI;
             }
 
             // The command will return the exceptions and errors while proceeding.

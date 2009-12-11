@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,19 +13,32 @@ namespace OpenSimBot.BotFramework
     {
 
         public bool MoveTo(string firstname, 
-                           string lastname, 
+                           string lastname,
+                           string servURI,
                            ulong globalX,
                            ulong globalY,
-                           float z)
+                           float globalZ)
         {
-            return false;
+            BotSessionMgr.BotSession sess =
+                BotSessionMgr.Instance.FindBotSession(firstname, lastname, servURI);
+            if (null != sess)
+            {
+                Hashtable paramList = new Hashtable();
+                paramList["globalX"] = globalX;
+                paramList["globalY"] = globalY;
+                paramList["globalZ"] = globalZ;
+                sess.Bot.Assignment.AddStep(new BotAgent.BotAssignment.TestStep("MoveTo", null));
+            }
+
+            return true;
         }
 
         public void RandomMoving(string firstname, 
-                                 string lastname)
+                                 string lastname,
+                                 string servURI)
         {
             BotSessionMgr.BotSession sess = 
-                BotSessionMgr.Instance.FindBotSession(firstname, lastname);
+                BotSessionMgr.Instance.FindBotSession(firstname, lastname, servURI);
             if (null != sess)
             {
                 sess.Bot.Assignment.AddStep(new BotAgent.BotAssignment.TestStep("RandomMoving", null));

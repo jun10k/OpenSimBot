@@ -55,7 +55,7 @@ namespace OpenSimBot.BotFramework
                           string password, 
                           string servURI)
         {
-            BotAgent.BotInfo info = new BotAgent.BotInfo(firstname, lastname, password);
+            BotAgent.BotInfo info = new BotAgent.BotInfo(firstname, lastname, password, servURI);
             BotAgent bot = new BotAgent(info);
             Hashtable paramList = new Hashtable();
             paramList["servURI"] = servURI;
