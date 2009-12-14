@@ -25,6 +25,7 @@ namespace OpenSimBot.OMVWrapper.Manager
             LogManager.GetLogger(typeof(BotSessionMgr));
 
         /*Attributes***********************************************************/
+        #region Network Lantacy
         public float SimulatedLoss
         {
             get { return m_simulatedLoss; }
@@ -47,7 +48,8 @@ namespace OpenSimBot.OMVWrapper.Manager
         {
             get { return m_simulatedLatencyVariance; }
             set { m_simulatedLatencyVariance = value; }
-        } 
+        }
+        #endregion
 
         /*Functions************************************************************/
         public BotSessionMgr()
@@ -188,16 +190,12 @@ namespace OpenSimBot.OMVWrapper.Manager
                 if (null == cmdInfo) return;
                 if (null != cmdInfo.Owner)
                 {
-                    if (Cmd_RandomMoving.CMD_NAME == cmdInfo.Owner.Name)
-                    {
-                        cmdInfo.Owner.PostExecute();
-                    }
-
                     switch (cmdInfo.Status)
                     {
                         case UpdateInfo.CommandStatus.CMD_SUCCESS:
                             m_botAgent.Assignment.GetStepByID(cmdInfo.StepID).Status =
                                 BotAgent.BotAssignment.TestStep.TestStatus.TESTSTEP_SUCESS;
+                            m_botAgent.RegisterStatus(cmdInfo.Owner);
                             break;
 
                         case UpdateInfo.CommandStatus.CMD_FAIL:

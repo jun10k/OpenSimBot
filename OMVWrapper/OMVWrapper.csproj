@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{115A4701-84DD-4B0C-9471-87D7AC7F7649}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -64,6 +64,7 @@
     <Compile Include="Commands\Cmd_Chat.cs" />
     <Compile Include="Commands\Cmd_Login.cs" />
     <Compile Include="Commands\Cmd_MoveTo.cs" />
+    <Compile Include="Commands\Cmd_RandomChating.cs" />
     <Compile Include="Commands\Cmd_RandomMoving.cs" />
     <Compile Include="Commands\Cmd_ToFly.cs" />
     <Compile Include="Commands\CommandFactory.cs" />

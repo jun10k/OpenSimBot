@@ -3,14 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
+using OpenSimBot.OMVWrapper.Command;
+
 namespace OpenSimBot.OMVWrapper
 {
     public class BotAgent
     {
         /*Members**************************************************************/
+        private const string BOT_STATUS_MOVE = "MOVE";
+        private const string BOT_STATUS_CHAT = "CHAT";
+
         private readonly Guid m_botGUID = Guid.NewGuid();
         private readonly BotInfo m_botInfo;
         private BotAssignment m_assignment = new BotAssignment();
+        private Hashtable m_botStatus = new Hashtable();
 
         /*Attributes***********************************************************/
         public Guid ID
@@ -31,8 +37,35 @@ namespace OpenSimBot.OMVWrapper
         /*Functions************************************************************/
         public BotAgent(BotInfo botInfo)
         {
+            m_botStatus[BOT_STATUS_MOVE] = null;
+            m_botStatus[BOT_STATUS_CHAT] = null;
+
             m_botInfo = botInfo;
         }
+
+        public void RegisterStatus(ICommand owner)
+        {
+            if (owner.Name == Command.Cmd_RandomMoving.CMD_NAME)
+            {
+                if (null != m_botStatus[BOT_STATUS_MOVE])
+                {
+                    ((ICommand)m_botStatus[BOT_STATUS_MOVE]).PostExecute();
+                }
+                m_botStatus[BOT_STATUS_MOVE] = owner;
+            }
+
+            if (owner.Name == Command.Cmd_RandomChating.CMD_NAME)
+            {
+                if (null != m_botStatus[BOT_STATUS_CHAT])
+                {
+                    ((ICommand)m_botStatus[BOT_STATUS_CHAT]).PostExecute();
+                }
+                m_botStatus[BOT_STATUS_CHAT] = owner;
+            }
+        }
+
+
+
 
         /*Class****************************************************************/
         public class BotInfo

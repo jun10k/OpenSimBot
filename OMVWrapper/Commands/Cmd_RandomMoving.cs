@@ -63,6 +63,8 @@ namespace OpenSimBot.OMVWrapper.Command
         {
             if (null == m_owner) return;
 
+            UpdateInfo result = new UpdateInfo(m_stepID, this);
+            OnCmdUpdated.Invoke(result);
             while (!isToQuitRandomMoving)
             {
                 if (0 == (random.Next() % 2))
@@ -79,9 +81,6 @@ namespace OpenSimBot.OMVWrapper.Command
                 m_owner.Client.Self.Movement.AtPos = true;
                 Thread.Sleep(random.Next(2000, 100000));
                 m_owner.Client.Self.Movement.AtPos = false;
-
-                UpdateInfo result = new UpdateInfo(m_stepID, this);
-                OnCmdUpdated.Invoke(result);
             }
         }
     }
